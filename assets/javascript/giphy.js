@@ -43,7 +43,6 @@ $(document).ready(function () {
                 gifDiv.addClass("gif-container");
 
                 //adding attributes and class to gifs
-                gif.attr("data-clicked", "unclicked");
                 gif.attr("src", response.data[i].images.fixed_width_still.url);
                 gif.addClass("gif-image");
 
@@ -166,13 +165,13 @@ $(document).ready(function () {
         
         var src = $(this).attr("src");
 
-        //plays and stops the gifs
+        //plays and stops the gifs by adding/removing clicked class and replacing _s.gif with .gif and vice versa
         if ($(this).hasClass("clicked")) {
-            $(this).attr("src", src.replace(/\.gif/i, "_s.gif"));
+            $(this).attr("src", src.replace(".gif", "_s.gif"));
             $(this).removeClass("clicked");
         } else {
             $(this).addClass("clicked");
-            $(this).attr("src", src.replace(/\_s.gif/i, ".gif"));
+            $(this).attr("src", src.replace("_s.gif", ".gif"));
         }
     });
 
