@@ -1,0 +1,23 @@
+.gif-container {
+    display: inline-block;
+    margin: 1em;
+}
+
+body {
+    font-family: 'Poller One', cursive;
+    background: url("../images/background-image.jpg");
+    background-size: cover;
+}
+
+label, p {
+    color: #ffffff;
+}
+
+.gif-image {
+    width: 300px;
+}
+
+.btn {
+    color: #a21a1d;
+    border-color: #000000;
+}
