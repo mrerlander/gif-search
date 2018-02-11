@@ -118,7 +118,10 @@ $(document).ready(function () {
                 var isComedy;
 
                 //gets the string of genres for the movie
-                var genres = response.Genre
+                var genres = response.Genre;
+
+                //checks if its a movie
+                var type = response.Type;
 
                 //splits string into an array
                 var genreArr = genres.split(", ");
@@ -130,10 +133,14 @@ $(document).ready(function () {
                     isComedy = false;
                 }
 
-                //checks to see if input was a comedy movie
-
+                //checks to see if input was a comedy
                 if (!isComedy) {
                     $("#error-messages").text("Comedy movies only, please.")
+                }
+
+                //checks to make sure input is a movie
+                else if (type !== "movie") {
+                    $("#error-messages").text("Please choose a movie.")
                 }
 
                 //checks to make sure input area is not blank
@@ -143,6 +150,9 @@ $(document).ready(function () {
                     createButtons();
 
                     $("#error-messages").text("");
+                    $("#search-form").each(function () {
+                        this.reset();
+                    });
                 }
 
             });
