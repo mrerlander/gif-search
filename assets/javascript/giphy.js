@@ -3,8 +3,11 @@ $(document).ready(function () {
     //array of gif searches
     var movies = ["Super Troopers", "Anchorman", "The Big Lebowski", "The Princess Bride", "Zoolander", "Dirty Rotten Scoundrels", "Spaceballs", "The Goonies", "One Crazy Summer", "PCU", "Three Amigos", "Coming to America", "Planes, Trains & Automobiles", "Wet Hot American Summer", "Young Frankenstein"]
 
+
     //displays gifs in #gif-area
     function displayGifs() {
+
+        var offset = Math.floor(Math.random()*101);
 
         //prevents reloading the page
         event.preventDefault();
@@ -16,7 +19,7 @@ $(document).ready(function () {
         var movie = $(this).attr("data-name");
 
         //url to search for gifs
-        var searchURL = "https://api.giphy.com/v1/gifs/search?api_key=PXx2NWiLxK8Qi22QECzaOYGnX95Rj30c&q=" + movie + "&limit=10";
+        var searchURL = "https://api.giphy.com/v1/gifs/search?api_key=PXx2NWiLxK8Qi22QECzaOYGnX95Rj30c&q=" + movie + "&limit=10&offset=" + offset;
 
         //call to gihpy api
         $.ajax({
@@ -41,7 +44,7 @@ $(document).ready(function () {
 
                 //adding attributes and class to gifs
                 gif.attr("data-clicked", "unclicked");
-                gif.attr("src", response.data[i].images.original_still.url);
+                gif.attr("src", response.data[i].images.fixed_width_still.url);
                 gif.addClass("gif-image");
 
                 //appending gif and rating to gifDiv
@@ -90,11 +93,13 @@ $(document).ready(function () {
         //variable for text input
         var movie = $("#movie-input").val().trim();
 
+        //checks for blank text box
         if (movie === "") {
             $("#error-messages").text("Enter a movie before submitting.");
 
         } 
         
+        //checks if movie was already added
         else if (movies.includes(movie)) {
 
             $("#error-messages").text("That movie is already included");
@@ -144,16 +149,14 @@ $(document).ready(function () {
         }
     });
 
-
-    //load pictures of gifs and their ratings in #gif-area
-    //each gif should load as a still photo
-    //click handlers to toggle playing the gif
-
+    //click handlers for buttons and gifs
     $(document).on("click", ".movie", displayGifs);
 
     $(document).on("click", ".gif-image", function () {
+        
         var src = $(this).attr("src");
 
+        //plays and stops the gifs
         if ($(this).hasClass("clicked")) {
             $(this).attr("src", src.replace(/\.gif/i, "_s.gif"));
             $(this).removeClass("clicked");
