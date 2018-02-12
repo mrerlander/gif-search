@@ -101,7 +101,7 @@ $(document).ready(function () {
         //checks if movie was already added
         else if (movies.includes(movie)) {
 
-            $("#error-messages").text("That movie is already included");
+            $("#error-messages").text(movie + " is already included");
 
         } else {
 
@@ -134,12 +134,12 @@ $(document).ready(function () {
 
                 //checks to see if input was a comedy
                 if (!isComedy) {
-                    $("#error-messages").text("Comedy movies only, please.")
+                    $("#error-messages").text(movie + " is not a comedy.")
                 }
 
                 //checks to make sure input is a movie
                 else if (type !== "movie") {
-                    $("#error-messages").text("Please choose a movie.")
+                    $("#error-messages").text(movie + " is not a movie.")
                 }
 
                 //checks to make sure input area is not blank
