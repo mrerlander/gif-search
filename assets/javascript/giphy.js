@@ -7,7 +7,7 @@ $(document).ready(function () {
     //displays gifs in #gif-area
     function displayGifs() {
 
-        var offset = Math.floor(Math.random() * 11);
+        var offset = Math.floor(Math.random() * 21);
 
         //prevents reloading the page
         event.preventDefault();
