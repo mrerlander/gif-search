@@ -7,7 +7,7 @@ $(document).ready(function () {
     //displays gifs in #gif-area
     function displayGifs() {
 
-        var offset = Math.floor(Math.random()*101);
+        var offset = Math.floor(Math.random() * 101);
 
         //prevents reloading the page
         event.preventDefault();
@@ -96,8 +96,8 @@ $(document).ready(function () {
         if (movie === "") {
             $("#error-messages").text("Enter a movie before submitting.");
 
-        } 
-        
+        }
+
         //checks if movie was already added
         else if (movies.includes(movie)) {
 
@@ -112,46 +112,52 @@ $(document).ready(function () {
                 url: queryURL,
                 method: "GET"
             }).then(function (response) {
-
-                //create variabel to store boolean value
-                var isComedy;
-
-                //gets the string of genres for the movie
-                var genres = response.Genre;
-
-                //checks if its a movie
-                var type = response.Type;
-
-                //splits string into an array
-                var genreArr = genres.split(", ");
-
-                //checks if Comedy is one of the genres
-                if (genreArr.includes("Comedy")) {
-                    isComedy = true;
+                
+                //checks if response from omdb is false
+                if (response.Response === "False") {
+                    $("#error-messages").text(movie + " is not a movie.");
                 } else {
-                    isComedy = false;
-                }
 
-                //checks to see if input was a comedy
-                if (!isComedy) {
-                    $("#error-messages").text(movie + " is not a comedy.")
-                }
+                    //create variabel to store boolean value
+                    var isComedy;
 
-                //checks to make sure input is a movie
-                else if (type !== "movie") {
-                    $("#error-messages").text(movie + " is not a movie.")
-                }
+                    //gets the string of genres for the movie
+                    var genres = response.Genre;
 
-                //checks to make sure input area is not blank
-                else {
-                    movies.push(movie);
+                    //checks if its a movie
+                    var type = response.Type;
 
-                    createButtons();
+                    //splits string into an array
+                    var genreArr = genres.split(", ");
 
-                    $("#error-messages").text("");
-                    $("#search-form").each(function () {
-                        this.reset();
-                    });
+                    //checks if Comedy is one of the genres
+                    if (genreArr.includes("Comedy")) {
+                        isComedy = true;
+                    } else {
+                        isComedy = false;
+                    }
+
+                    //checks to see if input was a comedy
+                    if (!isComedy) {
+                        $("#error-messages").text(movie + " is not a comedy.")
+                    }
+
+                    //checks to make sure input is a movie
+                    else if (type !== "movie") {
+                        $("#error-messages").text(movie + " is not a movie.")
+                    }
+
+                    //checks to make sure input area is not blank
+                    else {
+                        movies.push(movie);
+
+                        createButtons();
+
+                        $("#error-messages").text("");
+                        $("#search-form").each(function () {
+                            this.reset();
+                        });
+                    }
                 }
 
             });
@@ -162,7 +168,7 @@ $(document).ready(function () {
     $(document).on("click", ".movie", displayGifs);
 
     $(document).on("click", ".gif-image", function () {
-        
+
         var src = $(this).attr("src");
 
         //plays and stops the gifs by adding/removing clicked class and replacing _s.gif with .gif and vice versa
