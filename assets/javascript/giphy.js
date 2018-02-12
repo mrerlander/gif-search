@@ -19,7 +19,7 @@ $(document).ready(function () {
         var movie = $(this).attr("data-name");
 
         //url to search for gifs
-        var searchURL = "https://api.giphy.com/v1/gifs/search?api_key=PXx2NWiLxK8Qi22QECzaOYGnX95Rj30c&q=" + movie + "&limit=10&offset=" + offset;
+        var searchURL = "https://api.giphy.com/v1/gifs/search?api_key=PXx2NWiLxK8Qi22QECzaOYGnX95Rj30c&q=" + movie + "&tag=movie&limit=10&offset=" + offset;
 
         //call to gihpy api
         $.ajax({
