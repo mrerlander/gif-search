@@ -1,9 +1,22 @@
 $(document).ready(function () {
 
+    //add firebase
+    var config = {
+        apiKey: "AIzaSyDxeJylt7ePpXOLlu_9kf3JWiygeFZXyB0",
+        authDomain: "gifinder-2ad75.firebaseapp.com",
+        databaseURL: "https://gifinder-2ad75.firebaseio.com",
+        projectId: "gifinder-2ad75",
+        storageBucket: "",
+        messagingSenderId: "330772827786"
+    };
+    firebase.initializeApp(config);
+
+    //firebase variable
+    var database = firebase.database();
+
     //array of gif searches
-    var movies = ["Super Troopers", "Anchorman", "The Big Lebowski", "The Princess Bride", "Zoolander", "Dirty Rotten Scoundrels", "Spaceballs", "The Goonies", "One Crazy Summer", "PCU", "Three Amigos", "Coming to America", "Planes, Trains & Automobiles", "Wet Hot American Summer", "Young Frankenstein"]
-
-
+    var movies = ["Super Troopers", "Anchorman", "The Big Lebowski", "The Princess Bride", "Zoolander", "Dirty Rotten Scoundrels", "Spaceballs", "The Goonies", "One Crazy Summer", "PCU", "Three Amigos", "Coming to America", "Planes, Trains & Automobiles", "Wet Hot American Summer", "Young Frankenstein"];
+    
     //displays gifs in #gif-area
     function displayGifs() {
 
@@ -112,7 +125,7 @@ $(document).ready(function () {
                 url: queryURL,
                 method: "GET"
             }).then(function (response) {
-                
+
                 //checks if response from omdb is false
                 if (response.Response === "False") {
                     $("#error-messages").text(movie + " is not a movie.");
@@ -149,11 +162,22 @@ $(document).ready(function () {
 
                     //checks to make sure input area is not blank
                     else {
+
+                        //push movies to the mie array
                         movies.push(movie);
 
+                        //make button for new movie
                         createButtons();
 
+                        //updates firebase
+                        database.ref().set({
+                            movieArray: movies
+                        });
+
+                        //clears error messages
                         $("#error-messages").text("");
+
+                        //clears search form
                         $("#search-form").each(function () {
                             this.reset();
                         });
@@ -162,6 +186,22 @@ $(document).ready(function () {
 
             });
         }
+    });
+
+    //runs when a movie is added
+    database.ref().on("value", function (snapshot) {
+        
+        //updates the movies variable to the movie array in firebase
+        movies = snapshot.val().movieArray;
+
+        //makes buttons for the movies
+        createButtons();
+
+        //if there's an error
+    }, function (errorObject) {
+
+        console.log("The read failed: " + errorObject.code);
+
     });
 
     //click handlers for buttons and gifs
@@ -182,4 +222,5 @@ $(document).ready(function () {
     });
 
     createButtons();
+
 });
